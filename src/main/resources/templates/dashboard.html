@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard - Digital Hospital</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Digital Hospital</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/appointments}">My Appointments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/records}">Medical Records</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/logout}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Upcoming Appointments</h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${appointments.empty}">
+                            <p>No upcoming appointments</p>
+                        </div>
+                        <div th:each="appointment : ${appointments}">
+                            <div class="border-bottom p-2">
+                                <p class="mb-1">Doctor: <span th:text="${appointment.doctor.name}"></span></p>
+                                <p class="mb-1">Date: <span th:text="${#temporals.format(appointment.appointmentTime, 'dd-MM-yyyy HH:mm')}"></span></p>
+                                <p class="mb-0">Status: <span th:text="${appointment.status}"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Recent Medical Records</h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${records.empty}">
+                            <p>No medical records found</p>
+                        </div>
+                        <div th:each="record : ${records}">
+                            <div class="border-bottom p-2">
+                                <p class="mb-1">Date: <span th:text="${#temporals.format(record.date, 'dd-MM-yyyy')}"></span></p>
+                                <p class="mb-1">Doctor: <span th:text="${record.doctor.name}"></span></p>
+                                <p class="mb-0">Diagnosis: <span th:text="${record.diagnosis}"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
